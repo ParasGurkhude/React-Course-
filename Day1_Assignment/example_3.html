@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>JSX and Babel</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+      // Your JSX code here
+      const Root = ReactDOM.createRoot(document.getElementById("root"))   // create root and catch element with id
+
+      Root.render(
+        <>
+          <p>React is a javascript library</p>   {/* Simple P tag */}
+          <div className="main" style={{color: "red"}} >   {/* Add class and inline style  */}
+            <p>Click the below button to alert 'Hello'</p>
+            <button onClick={() => alert("Hello")}>Alert Hello</button>   {/* Add a click event to show alert given text */}
+          </div>
+        </>
+      )
+
+    </script>
+  </body>
+</html>

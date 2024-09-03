@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>JSX and Babel</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+        
+        let Root = ReactDOM.createRoot(document.getElementById("root")) 
+
+        // Dynamic Content in JSX
+        let Text = "Seize the day"  // Define a content into variable 
+        
+        // Conditional Rendering in JSX
+        const Paragraph = false; // Set to true or false as needed
+        const firstParagraph = <p>Seize the day!</p>;   
+        const secondParagraph = <p>Carpe diem!</p>;
+
+        const ElementConditional = Paragraph ? firstParagraph : secondParagraph;
+
+        Root.render(
+            <>
+                <p>Seize the day</p>   {/* simple JSX Elememt */}
+                <p>{Text}</p>           {/* use the Text content dynamically */}
+                <h3>{ElementConditional}</h3>  {/* use this text content dynamically and conditionally */}
+            </>
+        ) 
+
+      
+    </script>
+  </body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>JSX and Babel</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+      // Your JSX code here
+      const Root = ReactDOM.createRoot(document.getElementById('root'))
+        Root.render(
+            <>
+                <div>
+                    <img className="poster" src="./Clock.jpg" />   
+                    <h1>Automatic Watch</h1>
+                    <h3>$350.00 USD</h3>
+                    <br/>
+                    <h3 className="description">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore </h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquid amet at delectus doloribus dolorum expedita hic, ipsum maxime modi nam officiis porro, quae, quisquam quos reprehenderit velit? Natus, totam.</p>
+                    <hr/>
+                    <h3 >FEATURES</h3>
+                    <table className="table">
+                        <tr>
+                            <td>Chronograph</td>
+                            <td>Anti-magnetic</td>
+                        </tr>  
+                        <tr>
+                            <td>Master chronometer certified</td>
+                            <td>Chronometer</td>
+                        </tr> 
+                        <tr>
+                            <td>Tachymeter</td>
+                            <td>Small seconds</td>
+                        </tr>   
+                    </table>
+                    <hr/>
+                    <h3>PRODUCT DETAILS</h3>
+                    <p><span>Between lugs:</span> 20 mm</p>
+                    <p><span>Bracelets:</span> leather strap</p>
+                    <p><span>case:</span> Steel</p>
+                    <p><span>case diameter:</span> 42 mm</p>
+                    <p><span>Dial color:</span> Black</p>
+                    <p><span>Crystal:</span> Domed, scracth-resistant sapphire crystal with anti-reflective inside</p>
+                    <p><span>Water resistance:</span> 5 bar (50 meters /     167 feet)</p>
+                    <button>ADD TO CART</button>
+                    <h4>🚌 2-3 buisness days delivery</h4>
+                </div>
+            </>
+        )
+    </script>
+  </body>
+</html>
