@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Components in React</title>
+  <style>
+    *{font-family: 'Arial', sans-serif; text-align: center;}
+    span {
+        color:rgb(58, 177, 58)
+    }
+    #container {
+        width: 80%;
+        margin: auto;
+        display: flex;
+        justify-content: space-evenly;
+        gap: 30px;
+    }
+
+    .box{
+        border: 1px solid red;
+        width: 30%;
+        padding: 20px;
+    }
+    .box h4{ 
+        color: green;
+        background: rgb(183, 217, 183);
+        padding: 20px;
+        width: fit-content;
+        margin: auto;
+        border-radius: 10px;
+        font-weight: 900;
+    }
+
+    .box p {
+        color:darkgrey;
+    }
+    
+
+
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    // Write your code here
+    let root = ReactDOM.createRoot(document.getElementById('root'))
+
+    let InfoBox = () => {
+        return (
+            <div id="container">
+                <div className="box">
+                    <h4>1</h4>
+                    <h3>Find your template</h3>
+                    <p>Every template is embedded within an iframe, so you can easily check what they look like and test the responsive behaivor</p>
+                </div>
+                <div className="box">
+                    <h4>2</h4>
+                    <h3>Copy the code</h3>
+                    <p>Click the code tab to see the actual source code of the template, Copy and paste it into your project and adjust it to your needs</p>
+                </div>
+                <div className="box">
+                    <h4>3</h4>
+                    <h3>Enjoy your free time</h3>
+                    <p>You've just saved yourself a bunch of time not building the same stuff over and over again. Enjoy your free time, and build buisness features</p>
+                </div>
+                
+            </div>
+        )
+    }
+
+    let Head = () => {
+        return (
+            <h1>Getting started in <span>3 easy steps</span></h1>
+        )
+    }
+
+    const App = () => {
+        return (
+            <>
+                <Head/>
+                <InfoBox/>
+            </>
+        )
+    }
+    root.render(<App/>)
+  </script>
+</body>
+</html>
