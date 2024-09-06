@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Template</title>
+    <style>
+        .color-preview {
+          width: 200px;
+          height: 200px;
+          margin-top: 10px;
+          border: 1px solid #000;
+        }
+        .error-message {
+          color: red;
+          margin-top: 10px;
+        }
+    
+      </style>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    // Your  code will go here
+    const { useState } = React;
+
+    const isValidHex = (hex) => {
+      const hexRegex = /^#([0-9A-F]{3}){1,2}$/i;
+      return hexRegex.test(hex);
+    };
+
+    const ColorInput = () => {
+      const [color, setColor] = useState('');
+      const [isValid, setIsValid] = useState(true);
+
+      const handleColorChange = (event) => {
+        const value = event.target.value;
+        setColor(value);
+        setIsValid(isValidHex(value));
+      };
+
+      return (
+        <div>
+          <input type="text" value={color} onChange={handleColorChange} placeholder="Enter HEX color value" />
+          <div className="color-preview" style={{ backgroundColor: isValid ? color : '#FFFFFF' }} > </div>
+          {!isValid && <div className="error-message">Invalid HEX color code</div>}
+        </div>
+      );
+    };
+
+    ReactDOM.render(<ColorInput />, document.getElementById('root'));
+  </script>
+</html>
+
+
+
