@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Template</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    // Your  code will go here
+    const Quiz = () => {
+      const questions = [
+        {
+          question: "What is the capital of France?",
+          options: ["Berlin", "Madrid", "Paris", "Rome"],
+          answer: "Paris"
+        },
+        {
+          question: "Which planet is known as the Red Planet?",
+          options: ["Earth", "Mars", "Jupiter", "Venus"],
+          answer: "Mars"
+        },
+        {
+          question: "Who wrote 'To be, or not to be'?",
+          options: ["Mark Twain", "Jane Austen", "William Shakespeare", "Charles Dickens"],
+          answer: "William Shakespeare"
+        }
+      ];
+
+      const [selectedAnswers, setSelectedAnswers] = React.useState({});
+      const [submitted, setSubmitted] = React.useState(false);
+      const [score, setScore] = React.useState(0);
+
+      const handleOptionChange = (questionIndex, option) => {
+        setSelectedAnswers({
+          ...selectedAnswers,
+          [questionIndex]: option
+        });
+      };
+
+      const handleSubmit = () => {
+        let newScore = 0;
+        questions.forEach((question, index) => {
+          if (selectedAnswers[index] === question.answer) {
+            newScore += 1;
+          }
+        });
+        setScore(newScore);
+        setSubmitted(true);
+      };
+
+      const handleRestart = () => {
+        setSelectedAnswers({});
+        setSubmitted(false);
+        setScore(0);
+      };
+
+      return (
+        <div>
+          {!submitted ? (
+            <div>
+              {questions.map((question, index) => (
+                <div key={index}>
+                  <h3>{question.question}</h3>
+                  {question.options.map((option) => (
+                    <div key={option}>
+                      <label>
+                        <input
+                          type="radio"
+                          name={`question-${index}`}
+                          value={option}
+                          checked={selectedAnswers[index] === option}
+                          onChange={() => handleOptionChange(index, option)}
+                        />
+                        {option}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              ))}
+              <button onClick={handleSubmit}>Submit</button>
+            </div>
+          ) : (
+            <div>
+              <h2>Your Score: {score} / {questions.length}</h2>
+              <button onClick={handleRestart}>Restart Quiz</button>
+            </div>
+          )}
+        </div>
+      );
+    };
+
+    ReactDOM.render(<Quiz />, document.getElementById("root"));
+  </script>
+</html>
