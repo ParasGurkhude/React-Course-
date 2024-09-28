@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Advanced Task Manager</title>
+    <style>
+      .form {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+      }
+      .form h2 {
+        text-align: center;
+      }
+      .form input[type="text"],
+      .form select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      .form input[type="checkbox"] {
+        margin-right: 10px;
+      }
+      .form input[type="submit"] {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .form input[type="submit"]:hover {
+        background-color: #45a049;
+      }
+      .task-list {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+      }
+      .task-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+      }
+      .task-item:last-child {
+        border-bottom: none;
+      }
+      .task-item button {
+        margin-left: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const AddNewTask = ({ handleAddTask }) => {
+      const [form, setForm] = useState({
+        task: "",
+        status: false,
+        assignee: ""
+      });
+
+      function handleChange(e) {
+        const updateFormStateValue = {
+          ...form,
+          [e.target.name]: e.target.type === "checkbox" ? e.target.checked : e.target.value
+        };
+        setForm(updateFormStateValue);
+      }
+
+      function handleForm(e) {
+        e.preventDefault();
+        let data = {
+          title: form.task,
+          isCompleted: form.status,
+          assignee: form.assignee
+        };
+        axios.post("http://localhost:3000/todos", data).then(response => {
+          onAdd(response.data);
+          setForm({ task: "", status: false, assignee: "" });
+        });
+      }
+
+      return (
+        <form className="form" onSubmit={handleForm}>
+          <h2>Add New Task</h2>
+          <input
+            type="text"
+            placeholder="Enter Task"
+            value={form.task}
+            onChange={handleChange}
+            name="task"
+          />
+          <br />
+          <label>
+            IsCompleted:
+            <input
+              type="checkbox"
+              checked={form.status}
+              onChange={handleChange}
+              name="status"
+            />
+          </label>
+          <br />
+          <select value={form.assignee} name="assignee" onChange={handleChange}>
+            <option value="">Assign Task to</option>
+            <option value="Roger">Roger</option>
+            <option value="Luffy">Luffy</option>
+            <option value="Zoro">Zoro</option>
+          </select>
+          <br />
+          <input type="submit" />
+        </form>
+      );
+    };
+
+    const TaskItem = ({ task, onUpdate, onDelete }) => {
+      const [isEditing, setIsEditing] = useState(false);
+      const [form, setForm] = useState(task);
+
+      function handleChange(e) {
+        const updateFormStateValue = {
+          ...form,
+          [e.target.name]: e.target.type === "checkbox" ? e.target.checked : e.target.value
+        };
+        setForm(updateFormStateValue);
+      }
+
+      function handleUpdate(e) {
+        e.preventDefault();
+        axios.put(`http://localhost:3000/todos/${task.id}`, form).then(response => {
+          onUpdate(response.data);
+          setIsEditing(false);
+        });
+      }
+
+      return (
+        <div className="task-item">
+          {isEditing ? (
+            <form onSubmit={handleUpdate}>
+              <input
+                type="text"
+                value={form.title}
+                onChange={handleChange}
+                name="title"
+              />
+              <label>
+                <input
+                  type="checkbox"
+                  checked={form.isCompleted}
+                  onChange={handleChange}
+                  name="isCompleted"
+                />
+                Completed
+              </label>
+              <select value={form.assignee} name="assignee" onChange={handleChange}>
+                <option value="Roger">Roger</option>
+                <option value="Luffy">Luffy</option>
+                <option value="Zoro">Zoro</option>
+              </select>
+              <button type="submit">Save</button>
+              <button type="button" onClick={() => setIsEditing(false)}>Cancel</button>
+            </form>
+          ) : (
+            <>
+              <span>{task.title}</span>
+              <span>{task.isCompleted ? "Completed" : "Incomplete"}</span>
+              <span>{task.assignee}</span>
+              <button onClick={() => setIsEditing(true)}>Edit</button>
+              <button onClick={() => onDelete(task.id)}>Delete</button>
+            </>
+          )}
+        </div>
+      );
+    };
+
+    const DisplayData = () => {
+      const [tasks, setTasks] = useState([]);
+      const [filter, setFilter] = useState("all");
+
+      useEffect(() => {
+        axios.get("http://localhost:3000/todos").then(response => {
+          setTasks(response.data);
+        });
+      }, []);
+
+      function handleAddTask(newTask) {
+        setTasks([...tasks, newTask]);
+      }
+
+      function handleUpdateTask(updatedTask) {
+        setTasks(tasks.map(task => (task.id === updatedTask.id ? updatedTask : task)));
+      }
+
+      function handleDeleteTask(id) {
+        axios.delete(`http://localhost:3000/todos/${id}`).then(() => {
+          setTasks(tasks.filter(task => task.id !== id));
+        });
+      }
+
+      function handleDeleteAll() {
+        tasks.forEach(task => {
+          axios.delete(`http://localhost:3000/todos/${task.id}`);
+        });
+        setTasks([]);
+      }
+
+      const filteredTasks = tasks.filter(task => {
+        if (filter === "all") return true;
+        if (filter === "incomplete") return !task.isCompleted;
+        return task.assignee === filter;
+      });
+
+      return (
+        <div className="task-list">
+          <button onClick={handleDeleteAll}>Delete All</button>
+          <button onClick={() => setFilter("all")}>Show All Tasks</button>
+          <button onClick={() => setFilter("incomplete")}>Show Incomplete Tasks</button>
+          <select onChange={e => setFilter(e.target.value)}>
+            <option value="all">Filter by Assignee</option>
+            <option value="Roger">Roger</option>
+            <option value="Luffy">Luffy</option>
+            <option value="Zoro">Zoro</option>
+          </select>
+          {filteredTasks.map(task => (
+            <TaskItem
+              key={task.id}
+              task={task}
+              onUpdate={handleUpdateTask}
+              onDelete={handleDeleteTask}
+            />
+          ))}
+        </div>
+      );
+    };
+
+    const App = () => {
+      return (
+        <>
+          <AddNewTask  />
+          <DisplayData />
+        </>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</html>

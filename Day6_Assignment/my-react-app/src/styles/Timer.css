@@ -1,0 +1,100 @@
+/* Timer Container */
+.timer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    margin: auto;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Timer Title */
+  .timer-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  /* Timer Display */
+  .timer-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ddd;
+    width: 100%;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  /* Timer Time */
+  .timer-time {
+    font-size: 48px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Timer Input Container */
+  .timer-input-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Timer Input */
+  .timer-input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+    width: 80px;
+    text-align: center;
+  }
+  
+  /* Timer Button */
+  .timer-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .timer-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  
+  .timer-button:not(:disabled):hover {
+    background-color: #0056b3;
+  }
+  
+  /* Timer Controls */
+  .timer-controls {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  /* Progress Bar */
+  .progress-bar-container {
+    width: 100%;
+    height: 10px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+  }
+  
+  .progress-bar {
+    height: 100%;
+    background-color: blue;
+    border-radius: 5px;
+  }
+  

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Template</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 20px;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        text-align: center;
+        color: #333;
+      }
+      .search-bar {
+        margin-bottom: 20px;
+      }
+      .search-bar input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      .profile-list {
+        list-style: none;
+        padding: 0;
+      }
+      .profile-item {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>User Profiles</h1>
+      <div id="root"></div>
+    </div>
+  </body>
+  <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    // Your  code will go here
+
+    const UserProfile = ({user}) => {
+      const {name, age, gender, email} = user
+      return(
+        <li className="profile-item" >
+          <div>
+            <h3>Name : {name}</h3>
+            <h3>Age : {age}</h3>
+            <h3>Gender : {gender}</h3>
+            <h3>Email : {email}</h3>
+          </div>
+        </li>
+      )
+    }
+
+    const App = () => {
+      const [users, setUsers] = React.useState([
+        {
+          id: 1,
+          name: "John Doe",
+          age: 25,
+          gender: "Male",
+          email: "john.doe@example.com"
+        },
+        {
+          id: 2,
+          name: "Jane Smith",
+          age: 30,
+          gender: "Female",
+          email: "jane.smith@example.com"
+        },
+        {
+          id: 3,
+          name: "Alice Johnson",
+          age: 22,
+          gender: "Female",
+          email: "alice.johnson@example.com"
+        },
+        {
+          id: 4,
+          name: "Bob Brown",
+          age: 35,
+          gender: "Male",
+          email: "bob.brown@example.com"
+        },
+        {
+          id: 5,
+          name: "Monkey D. Luffy",
+          age: 19,
+          gender: "Male",
+          email: "luffy@example.com"
+        }
+      ])
+
+      const [search, setSearch] = React.useState("")
+
+      const filteredUser = React.useMemo(()=> {
+        return users.filter(user => 
+          user.name.toLowerCase().includes(search.toLowerCase())
+        )
+      }, [search, users])
+
+      return(
+        <div>
+          <div className="search-bar">
+            <input 
+              type="text"
+              placeholder="Search by user name...."
+              value = {search}
+              onChange = {e => setSearch(e.target.value)}
+            />
+          </div>
+          <ul className="profile-list">
+            { filteredUser.map((user, i) => {
+                return <UserProfile key={i} user={user} />
+            }) }
+          </ul>
+        </div>
+      )
+    }
+
+    let root = ReactDOM.createRoot(document.getElementById('root'))
+    root.render(<App/>)
+  </script>
+</html>
